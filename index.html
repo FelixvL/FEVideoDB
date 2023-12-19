@@ -23,11 +23,17 @@
                 returnString += `
                     <div>${data[x].Voornaam} 
                         <img src="../acteursfotos/${data[x].AfbeeldingURL}" height=300px>
-                        
+                        (r:${data[x].Rating}) (g:${data[x].Grootte}) (k:${data[x].Kleur}) (d:${data[x].Decennia}) 
                     </div>
                 `
             }
             document.getElementById("acteursdiv").innerHTML = returnString;
+        }
+        function getRadioFamilyValue(familyname){
+            let valueradio = document.querySelector('input[name="'+familyname+'"]:checked');
+            valueradio = valueradio ? valueradio.value : null;
+            return valueradio;
+
         }
         function zoekActeurOpKenmerk(){
             let naamdeel = document.getElementById("zoekbalk").value;
@@ -39,10 +45,54 @@
             .then(r => r.json())
             .then(d => verwerkActeurs(d))
         }
+        function zoekActeurOpAlleKenmerken(){
+            let naamdeel = document.getElementById("zoekbalk").value;
+            let decennia = getRadioFamilyValue("decennia");
+            console.log(decennia);
+            let kleur = getRadioFamilyValue("kleur");
+            console.log(kleur);
+            let rating = getRadioFamilyValue("rating");
+            console.log(rating);
+            let grootte = getRadioFamilyValue("grootte");
+            console.log(grootte);
+            if(naamdeel == ""){
+                naamdeel = "all";
+            }
+            fetch(baseurl+`/zoekopallekenmerken/${naamdeel}/${decennia}/${kleur}/${rating}/${grootte}`)
+            .then(r => r.json())
+            .then(d => verwerkActeurs(d))
+        }
     </script>
 </head>
 <body>
-    <input id="zoekbalk" onkeyup="zoekActeurOpKenmerk()">
+<!--    <input id="zoekbalk" onkeyup="zoekActeurOpKenmerk()">
+-->
+    <input id="zoekbalk" onkeyup="zoekActeurOpAlleKenmerken()">
+    70<input type="radio" name="decennia" value="7">
+    80<input type="radio" name="decennia" value="8">
+    90<input type="radio" name="decennia" value="9">
+    00<input type="radio" name="decennia" value="0">
+    all<input type="radio" name="decennia" value="all" checked>
+    ||
+    bl<input type="radio" name="kleur" value="1">
+    bk<input type="radio" name="kleur" value="2">
+    br<input type="radio" name="kleur" value="3">
+    all<input type="radio" name="kleur" value="all" checked>
+    ||
+    9<input type="radio" name="rating" value="9">
+    8<input type="radio" name="rating" value="8">
+    7<input type="radio" name="rating" value="7">
+    6<input type="radio" name="rating" value="6">
+    5<input type="radio" name="rating" value="5">
+    all<input type="radio" name="rating" value="all" checked>
+    ||
+    1<input type="radio" name="grootte" value="1">
+    2<input type="radio" name="grootte" value="2">
+    3<input type="radio" name="grootte" value="3">
+    4<input type="radio" name="grootte" value="4">
+    5<input type="radio" name="grootte" value="5">
+    all<input type="radio" name="grootte" value="all" checked>
+    <hr>
     <div id="acteursdiv">
         
     </div>
