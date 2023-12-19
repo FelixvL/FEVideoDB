@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        let baseurl = "http://127.0.0.1:5000";
+
+        window.onload = toonAlleActeurs()
+        
+        function toonAlleActeurs(){
+            fetch(baseurl+"/")
+            .then(r => r.json())
+            .then(d => verwerkActeurs(d))
+        }
+        
+        function verwerkActeurs(data){
+            console.log(data)
+            returnString = "";
+            for(let x= 0; x < data.length; x++){
+                returnString += `
+                    <div>${data[x].Voornaam} <img src="../acteursfotos/${data[x].AfbeeldingURL}" height=100px></div>
+                `
+            }
+            document.getElementById("acteursdiv").innerHTML = returnString;
+        }
+    </script>
+</head>
+<body>
+    <div id="acteursdiv">
+        ac
+    </div>
+</body>
+</html>
