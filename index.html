@@ -20,16 +20,30 @@
             returnString = "";
             for(let x= 0; x < data.length; x++){
                 returnString += `
-                    <div>${data[x].Voornaam} <img src="../acteursfotos/${data[x].AfbeeldingURL}" height=100px></div>
+                    <div>${data[x].Voornaam} 
+                        <img src="../acteursfotos/${data[x].AfbeeldingURL}" height=300px>
+                        
+                    </div>
                 `
             }
             document.getElementById("acteursdiv").innerHTML = returnString;
         }
+        function zoekActeurOpKenmerk(){
+            let naamdeel = document.getElementById("zoekbalk").value;
+            if(naamdeel == ""){
+                toonAlleActeurs();
+                return;
+            }
+            fetch(baseurl+"/zoekopkenmerknaam/"+naamdeel)
+            .then(r => r.json())
+            .then(d => verwerkActeurs(d))
+        }
     </script>
 </head>
 <body>
+    <input id="zoekbalk" onkeyup="zoekActeurOpKenmerk()">
     <div id="acteursdiv">
-        ac
+        
     </div>
 </body>
 </html>
