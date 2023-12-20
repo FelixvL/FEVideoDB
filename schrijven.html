@@ -5,9 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="videodb.css">
+    <style>
+        body{
+            background-color: lightcoral;
+        }
+    </style>
     <script>
         let baseurl = "http://127.0.0.1:5000";
-
+        let categorie = "all";
         window.onload = toonAlleActeurs()
         
         function toonAlleActeurs(){
@@ -32,11 +37,10 @@
             return returnString;
         }
         function verwerkActeurs(data){
-            console.log(data)
             returnString = "";
             for(let x= 0; x < data.length; x++){
                 returnString += `
-                    <div class="${getAllClasses(data[x])}"">${data[x].Voornaam} ${data[x].Achternaam} <br>
+                    <div class="${getAllClasses(data[x])}" onclick="kenWaardeToe(${data[x].id})">${data[x].Voornaam} ${data[x].Achternaam} <br>
                         <img src="../acteursfotos/${data[x].AfbeeldingURL}" height=300px><br>
                         r${data[x].Rating}g${data[x].Grootte}k${data[x].Kleur}d${data[x].Decennia}
                     </div>
@@ -60,16 +64,25 @@
             .then(r => r.json())
             .then(d => verwerkActeurs(d))
         }
+        function kenWaardeToe(fid){
+            console.log("ken waarde toe");
+            console.log(categorie);
+            let valueradio = document.querySelector('input[name="'+letterNaarWoord(categorie)+'"]:checked');
+            console.log(valueradio);
+            if(valueradio.value == "all"){
+                alert("je moet kiezen");
+                return;
+            }
+            fetch(baseurl+"/kentoe/"+categorie+"/"+valueradio.value+"/"+fid)
+            .then(r => r.json())
+            .then(d => kiesSchrijfMode())
+        }
         function zoekActeurOpAlleKenmerken(){
             let naamdeel = document.getElementById("zoekbalk").value;
             let decennia = getRadioFamilyValue("decennia");
-            console.log(decennia);
             let kleur = getRadioFamilyValue("kleur");
-            console.log(kleur);
             let rating = getRadioFamilyValue("rating");
-            console.log(rating);
             let grootte = getRadioFamilyValue("grootte");
-            console.log(grootte);
             if(naamdeel == ""){
                 naamdeel = "all";
             }
@@ -77,12 +90,37 @@
             .then(r => r.json())
             .then(d => verwerkActeurs(d))
         }
+        function kiesSchrijfMode(){
+            let smode = document.getElementById("smode").value;
+            let alleradio = document.querySelectorAll("input[type=radio]");
+            console.log(alleradio);
+            alleradio.forEach(e => e.style.visibility = 'hidden');
+            let alleradiospec = document.querySelectorAll("input[name="+letterNaarWoord(smode)+"]");
+            alleradiospec.forEach(e => e.style.visibility = 'visible');
+            categorie = smode;
+            fetch(baseurl+`/zoeknullopcategorie/${smode}`)
+            .then(r => r.json())
+            .then(d => verwerkActeurs(d))
+            
+        }
+        function letterNaarWoord(letter){
+            let woorden = ["rating", "grootte","decennia","kleur"]
+            if(letter == "r") return woorden[0];
+            if(letter == "g") return woorden[1];
+            if(letter == "d") return woorden[2];
+            if(letter == "k") return woorden[3];
+        }
     </script>
 </head>
 <body>
 <!--    <input id="zoekbalk" onkeyup="zoekActeurOpKenmerk()">
 -->
-    <input id="zoekbalk" onkeyup="zoekActeurOpAlleKenmerken()">
+    <select onchange="kiesSchrijfMode()" id="smode">
+        <option value="g">Grootte</option>
+        <option value="k">Kleur</option>
+        <option value="r">Rating</option>
+        <option value="d">Decennia</option>
+    </select>
     70<input type="radio" name="decennia" value="7">
     80<input type="radio" name="decennia" value="8">
     90<input type="radio" name="decennia" value="9">

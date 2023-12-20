@@ -7,6 +7,9 @@ text-shadow: 0 0 4px white, 0 0 4px white, 0 0 5px white, 0 0 40px #00BFFF, 0 0 
 text-shadow: 0 0 4px white, 0 0 4px white, 0 0 5px white, 0 0 40px #00BFFF, 0 0 10px white;
 font-size:20px;
 }
+#acteursdiv{
+    background-color: white;
+}
 .r9{
     border:4px solid gold;
 }
@@ -60,5 +63,10 @@ font-size:20px;
 }  
 .k1 {
     color:gold;
-    content: "* * * * *";
+}  
+.k2 {
+    color:black;
+}  
+.k3 {
+    color:brown;
 }  
