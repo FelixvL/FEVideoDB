@@ -1,3 +1,64 @@
 div{
     display: inline-block;
+    background-color: navy;
+/*    text-shadow: 0px 0px 2px lightblue;
+text-shadow: 0 0 4px white, 0 0 4px white, 0 0 5px white, 0 0 40px #00BFFF, 0 0 10px white, 0 0 5px white, 0 0 4px white, 0 0 5px white;
+*/
+text-shadow: 0 0 4px white, 0 0 4px white, 0 0 5px white, 0 0 40px #00BFFF, 0 0 10px white;
+font-size:20px;
 }
+.r9{
+    border:4px solid gold;
+}
+.r8{
+    border:4px solid silver;
+}
+.r7{
+    border:4px solid brown;
+}
+.r6{
+    border:4px dotted orange;
+}
+.r5{
+    border:4px dotted gray;
+}
+.d7::before {
+    color:pink;
+    content: "70";
+}
+.d8::before {
+    color:green;
+    content: "80";
+}
+.d9::before {
+    color:red;
+    content: "90";
+}
+.d0::before {
+    color:blue;
+    content: "00";
+}
+.g1::after {
+    color:black;
+    content: "*";
+}
+.g2::after {
+    color:red;
+    content: "* *";
+}
+.g3::after {
+    color:silver;
+    content: "* * *";
+}
+.g4::after {
+    color:gold;
+    content: "* * * *";
+}
+.g5::after {
+    color:blue;
+    content: "* * * * *";
+}  
+.k1 {
+    color:gold;
+    content: "* * * * *";
+}  
