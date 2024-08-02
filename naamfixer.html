@@ -1,0 +1,33 @@
+<script>
+    let counter = 0;
+    function nextacteur(){
+        let detekst = document.getElementById("alles").value;
+        let eerstelijn = detekst.split("\n")[counter];
+        counter++;
+        document.getElementById("dejpg").value = eerstelijn;
+        fotonaam = eerstelijn;
+        document.getElementById("dejpg").focus();
+
+    }
+    function addquery(){
+        document.getElementById("uitkomst").innerHTML += `
+            UPDATE Acteurs SET Voornaam = '${voornaam}', Achternaam = '${achternaam}' WHERE AfbeeldingURL = '${fotonaam}';
+        `
+    }
+    let voornaam;
+    let achternaam;
+    let fotonaam;
+    function zetnamen(){
+        let cursorindex = document.getElementById("dejpg").selectionStart;
+        voornaam = document.getElementById("dejpg").value.slice(0,cursorindex);
+        achternaam = document.getElementById("dejpg").value.slice(cursorindex);
+        voornaam = voornaam.charAt(0).toUpperCase() + voornaam.slice(1);
+        achternaam = achternaam.charAt(0).toUpperCase() + achternaam.slice(1, -4);
+        console.log(voornaam, achternaam, fotonaam);
+    }
+</script>
+<input id="dejpg" onkeyup="zetnamen()"><br>
+<button onclick="addquery()">add query</button><br>
+<button onclick="nextacteur()">next</button><br>
+<textarea id="alles"></textarea><br>
+<div id="uitkomst"></div>

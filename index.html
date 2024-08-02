@@ -8,12 +8,21 @@
     <script>
         let baseurl = "http://127.0.0.1:5000";
 
-        window.onload = toonAlleActeurs()
-        
+        window.onload = function(){
+            toonAlleActeurs();
+            document.getElementById("zoekbalk").focus();
+        }
         function toonAlleActeurs(){
             fetch(baseurl+"/")
             .then(r => r.json())
             .then(d => verwerkActeurs(d))
+        }
+        function plaatsnaam(aid){
+            document.getElementById("namenrij").value += document.getElementById("foto"+aid).innerHTML + " ";
+            navigator.clipboard.writeText(document.getElementById("namenrij").value);
+            document.getElementById("zoekbalk").value = "";
+            toonAlleActeurs();
+            document.getElementById("zoekbalk").focus();
         }
         function getAllClasses(kaart){
             let returnString = "";
@@ -36,7 +45,7 @@
             returnString = "";
             for(let x= 0; x < data.length; x++){
                 returnString += `
-                    <div class="${getAllClasses(data[x])}"">${data[x].Voornaam} ${data[x].Achternaam} <br>
+                    <div onclick="plaatsnaam(${data[x].id})" class="${getAllClasses(data[x])}""><span id="foto${data[x].id}">${data[x].Voornaam} ${data[x].Achternaam}</span> <br>
                         <img src="../acteursfotos/${data[x].AfbeeldingURL}" height=300px><br>
                         r${data[x].Rating}g${data[x].Grootte}k${data[x].Kleur}d${data[x].Decennia}
                     </div>
@@ -77,12 +86,15 @@
             .then(r => r.json())
             .then(d => verwerkActeurs(d))
         }
+        function clearTekst(){
+            document.getElementById("namenrij").value = "";
+        }
     </script>
 </head>
 <body>
 <!--    <input id="zoekbalk" onkeyup="zoekActeurOpKenmerk()">
 -->
-    <input id="zoekbalk" onkeyup="zoekActeurOpAlleKenmerken()">
+    <input id="zoekbalk" onkeyup="zoekActeurOpAlleKenmerken()"><br>
     70<input type="radio" name="decennia" value="7" onchange="zoekActeurOpAlleKenmerken()">
     80<input type="radio" name="decennia" value="8" onchange="zoekActeurOpAlleKenmerken()">
     90<input type="radio" name="decennia" value="9" onchange="zoekActeurOpAlleKenmerken()">
@@ -109,6 +121,9 @@
     all<input type="radio" name="grootte" value="all" checked onchange="zoekActeurOpAlleKenmerken()">
     <a href="schrijven.html">schrijven</a>
     <a href="videospelen.html"> - speelvideo</a>
+    <a href="naamfixer.html"> - naamfixer</a>
+    <br>
+    <input id="namenrij"><button onclick="clearTekst()">clear</button>
     <hr>
     <div id="acteursdiv">
         
